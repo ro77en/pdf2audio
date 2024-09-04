@@ -3,6 +3,17 @@
     src: url(./fonts/DoctorGlitch.otf);
 }
 
-.test {
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.title h1 {
     font-family: "Glitch";
+    font-size: 5em;
+    color: #3EED00;
+    text-shadow: 5px 5px #000;
+    /* #558ABB; */
 }
