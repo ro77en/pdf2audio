@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-image: url(./assets/lofi-bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
