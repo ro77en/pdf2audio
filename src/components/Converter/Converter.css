@@ -1,0 +1,82 @@
+.converter {
+    background-color: #d9d9d9;
+    max-width: 500px;
+    width: 100%;
+    height: 260px;
+    border-radius: 5px;
+    opacity: 0.9;
+    box-shadow: 3px 3px 20px;
+    padding: 10px;
+
+    position: relative;
+}
+
+.dropzone {
+    border: 3px dashed black;
+    border-radius: 5px;
+    height: 100%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dropzone p {
+    font-size: 1em;
+}
+
+.dropzone img {
+    width: 20%;
+}
+
+button {
+    cursor: pointer;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+
+    background-color: blueviolet;
+    color: white;
+}
+
+button:hover {
+    background-color: rgb(120, 38, 196);
+}
+
+button:active {
+    top: 2px;
+}
+
+@media (width < 768px) {
+    button {
+        padding: 5px;
+    }
+    .converter {
+        height: 220px;
+        width: 90%;
+        top: 30px;
+    }
+
+    .dropzone {
+        font-size: 0.7em;
+        gap: 5px;
+    }
+
+    .dropzone p {
+        font-size: 1.2em;
+    }
+}
+
+@media (width < 480px) {
+    .converter {
+        height: 180px;
+        top: 10px;
+    }
+
+    .dropzone {
+        font-size: 0.5em;
+    }
+}
