@@ -9,7 +9,6 @@
   align-items: center;
   justify-content: space-around;
   min-height: 100vh;
-  padding: 20px;
 }
 
 .title {
@@ -24,6 +23,7 @@
 }
 
 .footer {
+  height: 100px;
   font-family: "Glitch";
   color: #3eed00;
   text-shadow: 5px 5px #000;
@@ -47,5 +47,9 @@
 @media (max-width: 480px) {
   .title h1 {
       font-size: 3em;
+  }
+
+  .footer {
+    height: 50px;
   }
 }
