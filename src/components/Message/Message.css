@@ -1,0 +1,17 @@
+.msg {
+    width: 500px;
+    padding: 10px;
+    background-color: rgb(251, 85, 85);
+    color: white;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    opacity: 0;
+    transition: opacity .8s ease-in-out;
+}
+
+.msg.visible {
+    opacity: 1;
+}
