@@ -1,21 +1,24 @@
 * {
     padding: 0;
-    margin: 0 auto;
+    margin: 0;
     box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
 body {
     height: 100vh;
-    background-image: url(./assets/lofi-bg.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
+    margin: 0;
+    background: url(./assets/lofi-bg.png) no-repeat center/cover fixed;
 }
+
 
 #root {
     height: 100%;
     width: 100%;
-    max-width: 1200px;
     padding: 20px;
 }
