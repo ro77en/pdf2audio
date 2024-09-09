@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 
 import pdfToText from "react-pdftotext";
 import { franc } from "franc-min";
@@ -11,6 +11,18 @@ import "./Converter.css";
 function Converter() {
   const { file, setFile } = useContext(FileContext);
   const inputRef = useRef();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speech, setSpeech] = useState(null);
+
+  const getSpeechLang = (detectedLang) => {
+    const langMap = {
+      eng: "en-US",
+      por: "pt-BR",
+      spa: "es-ES",
+    };
+
+    return langMap[detectedLang] || "en-US";
+  };
 
   const handleFileSelection = (file) => {
     if (file && file.type === "application/pdf") {
@@ -20,16 +32,32 @@ function Converter() {
     }
   };
 
-  const convertToAudio = () => {
-    extractText(file);
+  const createSpeech = (text, detectedLang) => {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = getSpeechLang(detectedLang);
+    speech.onend = () => setIsPlaying(false);
+    return speech;
   };
-  
+
+  const playAudio = () => {
+    if (speech && !isPlaying) {
+      window.speechSynthesis.speak(speech);
+      setIsPlaying(true);
+    }
+  };
+
+  const pauseAudio = () => {
+    window.speechSynthesis.pause();
+    setIsPlaying(false);
+  };
+
   const extractText = (file) => {
     pdfToText(file)
-    .then((text) => {
-      console.log(text);
-      const detectedLang = franc(text)
-      console.log(detectedLang);
+      .then((text) => {
+        console.log(text);
+        const detectedLang = franc(text);
+        const speechObj = createSpeech(text, detectedLang);
+        setSpeech(speechObj);
       })
       .catch((error) =>
         console.log("Failed to extract text from PDF: " + error)
@@ -77,7 +105,18 @@ function Converter() {
               ref={inputRef}
             />
             {file ? (
-              <button onClick={convertToAudio}>Convert PDF</button>
+              <>
+                <button onClick={() => extractText(file)}>Convert PDF</button>
+                {speech && (
+                  <div>
+                    {isPlaying ? (
+                      <button onClick={pauseAudio}>Pause</button>
+                    ) : (
+                      <button onClick={playAudio}>Play</button>
+                    )}
+                  </div>
+                )}
+              </>
             ) : (
               <button onClick={handleBrowseFile}>Browse Files</button>
             )}
