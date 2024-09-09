@@ -1,6 +1,7 @@
 import { useRef, useContext } from "react";
 
 import pdfToText from "react-pdftotext";
+import { franc } from "franc-min";
 
 import { FileContext } from "../../App";
 import Message from "../Message/Message";
@@ -19,14 +20,16 @@ function Converter() {
     }
   };
 
-  const convertPDF = () => {
+  const convertToAudio = () => {
     extractText(file);
   };
-
+  
   const extractText = (file) => {
     pdfToText(file)
-      .then((text) => {
-        console.log(text);
+    .then((text) => {
+      console.log(text);
+      const detectedLang = franc(text)
+      console.log(detectedLang);
       })
       .catch((error) =>
         console.log("Failed to extract text from PDF: " + error)
@@ -74,7 +77,7 @@ function Converter() {
               ref={inputRef}
             />
             {file ? (
-              <button onClick={convertPDF}>Convert PDF</button>
+              <button onClick={convertToAudio}>Convert PDF</button>
             ) : (
               <button onClick={handleBrowseFile}>Browse Files</button>
             )}
