@@ -23,6 +23,14 @@
     gap: 10px;
 }
 
+.dropzone div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 .dropzone p {
     font-size: 1em;
 }

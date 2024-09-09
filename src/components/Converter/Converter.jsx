@@ -14,15 +14,20 @@ function Converter() {
   const handleFileSelection = (file) => {
     if (file && file.type === "application/pdf") {
       setFile(file);
-      extractText(file);
     } else {
       setFile(undefined);
     }
   };
 
+  const convertPDF = () => {
+    extractText(file);
+  };
+
   const extractText = (file) => {
     pdfToText(file)
-      .then((text) => console.log(text))
+      .then((text) => {
+        console.log(text);
+      })
       .catch((error) =>
         console.log("Failed to extract text from PDF: " + error)
       );
@@ -46,15 +51,20 @@ function Converter() {
   return (
     <>
       <div className="converter">
-        {!file && (
-          <div
-            className="dropzone"
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={handleDrop}
-          >
-            <img src="src\assets\add-pdf.png" alt="add pdf icon" />
-            <h2>Drag & Drop your PDF File</h2>
-            <p>or</p>
+        <div
+          className="dropzone"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={handleDrop}
+        >
+          <div>
+            <img
+              src={`src/assets/${file ? "valid-pdf.png" : "add-pdf.png"}`}
+              alt={`${file ? "valid pdf pic" : "add pdf pic"}`}
+            />
+            <h2>
+              {file ? `PDF Ready: ${file.name}` : "Drag & Drop your PDF File"}
+            </h2>
+            {file ? <p>or drag another PDF here</p> : <p>or</p>}
             <input
               type="file"
               name="file"
@@ -63,11 +73,13 @@ function Converter() {
               onChange={handleOnChange}
               ref={inputRef}
             />
-            <button onClick={handleBrowseFile}>
-              {file ? "Convert" : "Browse Files"}
-            </button>
+            {file ? (
+              <button onClick={convertPDF}>Convert PDF</button>
+            ) : (
+              <button onClick={handleBrowseFile}>Browse Files</button>
+            )}
           </div>
-        )}
+        </div>
       </div>
       <Message file={file} />
     </>
