@@ -2,7 +2,7 @@
     background-color: #d9d9d9;
     max-width: 500px;
     width: 100%;
-    height: 260px;
+    height: 100%;
     border-radius: 5px;
     opacity: 0.9;
     box-shadow: 3px 3px 20px;
@@ -15,6 +15,7 @@
     border: 3px dashed black;
     border-radius: 5px;
     height: 100%;
+    width: 100%;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
@@ -29,6 +30,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    padding: 10px;
 }
 
 .dropzone p {
@@ -37,6 +39,10 @@
 
 .dropzone img {
     width: 20%;
+}
+
+.dropzone h2 {
+    text-align: center;
 }
 
 button {
@@ -66,11 +72,16 @@ button:active {
         height: 220px;
         width: 90%;
         top: 30px;
+        padding: 5px;
     }
 
     .dropzone {
         font-size: 0.7em;
         gap: 5px;
+    }
+
+    .dropzone div {
+        padding: 5px;
     }
 
     .dropzone p {
