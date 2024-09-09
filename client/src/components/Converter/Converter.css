@@ -45,6 +45,12 @@
     text-align: center;
 }
 
+.dropzone audio {
+    height: 35px;
+    margin-top: 5px;
+    max-width: 100%;
+}
+
 button {
     cursor: pointer;
     padding: 8px;
@@ -69,7 +75,6 @@ button:active {
         padding: 5px;
     }
     .converter {
-        height: 220px;
         width: 90%;
         top: 30px;
         padding: 5px;
@@ -80,6 +85,10 @@ button:active {
         gap: 5px;
     }
 
+    .dropzone button {
+        font-size: 0.9em;
+    }
+
     .dropzone div {
         padding: 5px;
     }
@@ -87,15 +96,25 @@ button:active {
     .dropzone p {
         font-size: 1.2em;
     }
+
+
 }
 
 @media (width < 480px) {
     .converter {
-        height: 180px;
+        height: 250px;
         top: 10px;
+    }
+
+    img {
+        width: 50px;;
     }
 
     .dropzone {
         font-size: 0.5em;
+    }
+
+    audio {
+        height: 30px;
     }
 }

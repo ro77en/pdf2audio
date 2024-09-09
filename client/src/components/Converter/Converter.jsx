@@ -11,8 +11,8 @@ import "./Converter.css";
 function Converter() {
   const { file, setFile } = useContext(FileContext);
   const inputRef = useRef();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [speech, setSpeech] = useState(null);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [audio, setAudio] = useState(null);
 
   const getSpeechLang = (detectedLang) => {
     const langMap = {
@@ -32,23 +32,53 @@ function Converter() {
     }
   };
 
-  const createSpeech = (text, detectedLang) => {
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = getSpeechLang(detectedLang);
-    speech.onend = () => setIsPlaying(false);
-    return speech;
+  const createAudioUrl = (blob) => {
+    const url = URL.createObjectURL(blob);
+    setAudioUrl(url);
+
+    if (audio) {
+      audio.pause();
+    }
+
+    const newAudio = new Audio(url);
+    setAudio(newAudio);
   };
+
 
   const playAudio = () => {
-    if (speech && !isPlaying) {
-      window.speechSynthesis.speak(speech);
-      setIsPlaying(true);
+    if (audio) {
+      audio.play();
     }
-  };
+  }
 
   const pauseAudio = () => {
-    window.speechSynthesis.pause();
-    setIsPlaying(false);
+    if (audio) {
+      audio.pause();
+    }
+  }
+
+  const fetchAudioFile = async (text, lang) => {
+    try {
+      const res = await fetch("http://localhost:3000/convert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: text,
+          lang: lang,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Error during the HTTP request')
+      }
+
+      const blob = await res.blob();
+      createAudioUrl(blob);
+    } catch (error) {
+      console.log("Failed to convert text to audio file: " + error);
+    }
   };
 
   const extractText = (file) => {
@@ -56,8 +86,7 @@ function Converter() {
       .then((text) => {
         console.log(text);
         const detectedLang = franc(text);
-        const speechObj = createSpeech(text, detectedLang);
-        setSpeech(speechObj);
+        fetchAudioFile(text, getSpeechLang(detectedLang));
       })
       .catch((error) =>
         console.log("Failed to extract text from PDF: " + error)
@@ -107,14 +136,8 @@ function Converter() {
             {file ? (
               <>
                 <button onClick={() => extractText(file)}>Convert PDF</button>
-                {speech && (
-                  <div>
-                    {isPlaying ? (
-                      <button onClick={pauseAudio}>Pause</button>
-                    ) : (
-                      <button onClick={playAudio}>Play</button>
-                    )}
-                  </div>
+                {audioUrl && (
+                  <audio controls src={audioUrl}></audio>
                 )}
               </>
             ) : (
