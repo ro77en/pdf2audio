@@ -1,16 +1,20 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+
+import { FileContext } from "../../App";
+
 import "./Converter.css";
 import Message from "../Message/Message";
 
 function Converter() {
-  const [file, setFile] = useState(null);
-  const [showMessage, setShowMessage] = useState(false);
+  const {file, setFile} = useContext(FileContext);
   const inputRef = useRef();
 
   const handleFileSelection = (file) => {
-    file && file.type === "application/pdf"
-      ? setFile(file)
-      : setShowMessage(true);
+    if (file && file.type === 'application/pdf') {
+      setFile(file)
+    } else {
+      setFile(undefined);
+    }
   };
 
   const handleDrop = (event) => {
@@ -26,10 +30,6 @@ function Converter() {
 
   const handleBrowseFile = () => {
     inputRef.current.click();
-  };
-
-  const hideMessage = () => {
-    setShowMessage(false);
   };
 
   return (
@@ -58,7 +58,7 @@ function Converter() {
           </div>
         )}
       </div>
-      <Message showMessage={showMessage} hideMessage={hideMessage} />
+      <Message file={file} />
     </>
   );
 }

@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
 import "./Message.css";
 
-function Message(props) {
+function Message({ file }) {
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
-    if (props.showMessage) {
-        const hideTimer = setTimeout(() => {
-          props.hideMessage();
-        }, 4000);
-    
-        return () => {
-          clearTimeout(hideTimer);
-        };
-    }
+    if (file === undefined) {
+      setShowMessage(true);
 
-  }, [props.showMessage]);
+      const messageTimer = setTimeout(() => {
+        setShowMessage(false);
+      }, 4000);
+
+      return () => {
+        clearTimeout(messageTimer);
+      };
+    }
+  }, [file]);
 
   return (
     <>
-        <div className={`msg ${props.showMessage ? 'visible' : ''}`}>
-          <p>You can select only 1 PDF file at a time.</p>
-        </div>
+      <div className={`msg ${showMessage ? "visible" : ""}`}>
+        <p>You can select only 1 PDF file at a time.</p>
+      </div>
     </>
   );
 }
