@@ -1,6 +1,22 @@
 # PDF to Audio Converter
 
-A React application that extracts text from a PDF file and converts it to an audio file using Google's Text-to-Speech API.
+A web application that converts PDF text to speech using Google Text-to-Speech (GTTS). This project features a React frontend for selecting and uploading PDF files, extracting their text, and streaming the generated audio directly in the browser. The backend is built with Node.js and Express, utilizing GTTS to handle the text-to-audio conversion.
+
+## Key Features
+
+- Drag-and-drop PDF file upload
+- Text extraction from PDF files using react-pdftotext
+- Language detection using franc-min
+- Text-to-Speech conversion via Google Text-to-Speech (GTTS)
+- Stream audio directly in the browser
+- Fully responsive UI
+
+## Tech Stack
+
+- Frontend: React, Vite
+- Backend: Node.js, Express, GTTS
+- PDF to text: react-pdftotext
+- Language detection: franc-min
 
 ## Project Structure
 
