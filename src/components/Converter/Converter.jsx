@@ -1,20 +1,31 @@
-import { useState, useRef, useContext } from "react";
+import { useRef, useContext } from "react";
+
+import pdfToText from "react-pdftotext";
 
 import { FileContext } from "../../App";
-
-import "./Converter.css";
 import Message from "../Message/Message";
 
+import "./Converter.css";
+
 function Converter() {
-  const {file, setFile} = useContext(FileContext);
+  const { file, setFile } = useContext(FileContext);
   const inputRef = useRef();
 
   const handleFileSelection = (file) => {
-    if (file && file.type === 'application/pdf') {
-      setFile(file)
+    if (file && file.type === "application/pdf") {
+      setFile(file);
+      extractText(file);
     } else {
       setFile(undefined);
     }
+  };
+
+  const extractText = (file) => {
+    pdfToText(file)
+      .then((text) => console.log(text))
+      .catch((error) =>
+        console.log("Failed to extract text from PDF: " + error)
+      );
   };
 
   const handleDrop = (event) => {
