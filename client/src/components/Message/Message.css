@@ -1,5 +1,6 @@
 .msg {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     padding: 10px;
     background-color: rgb(251, 85, 85);
     color: white;
@@ -14,4 +15,18 @@
 
 .msg.visible {
     opacity: 1;
+}
+
+@media(width < 768px) {
+    .msg {
+        width: 90%;
+        margin-top: 40px;
+        font-size: 0.9em;
+    }
+}
+
+@media(width < 480px) {
+    .msg {
+        margin-top: 20px;
+    }
 }
