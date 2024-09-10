@@ -19,11 +19,17 @@ function Converter() {
   const inputRef = useRef();
   const [audioUrl, setAudioUrl] = useState(null);
   const [audio, setAudio] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const getSpeechLang = (detectedLang) => LANG_MAP[detectedLang] || "en-US";
 
   const handleFileSelection = (selectedFile) => {
-    setFile(selectedFile?.type === 'application/pdf' ? selectedFile : undefined);
+    if (selectedFile.type !== 'application/pdf') {
+      setMessage('You can only upload PDF files')
+      return;
+    }
+
+    setFile(selectedFile);
   }
 
 
@@ -52,23 +58,29 @@ function Converter() {
       if (!res.ok) {
         throw new Error('Error during the HTTP request')
       }
-
+      
       const blob = await res.blob();
       createAudioUrl(blob);
     } catch (error) {
       console.log("Failed to convert text to audio file: " + error);
+      setMessage('Error connecting to the server');
     }
   };
 
   const extractText = (file) => {
     pdfToText(file)
       .then((text) => {
+        if (!text) {
+          setMessage("Error extracting text from the PDF file");
+          return;
+        }
         console.log(text);
         const detectedLang = franc(text);
         fetchAudioFile(text, getSpeechLang(detectedLang));
       })
-      .catch((error) =>
+      .catch((error) => {
         console.log("Failed to extract text from PDF: " + error)
+      }
       );
   };
 
@@ -124,7 +136,7 @@ function Converter() {
           </div>
         </div>
       </div>
-      <Message file={file} />
+      <Message message={message}/>
     </>
   );
 }

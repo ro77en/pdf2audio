@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./Message.css";
 
-function Message({ file }) {
+function Message(props) {
   const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
-    if (file === undefined) {
+    if (props.message) {
       setShowMessage(true);
 
       const messageTimer = setTimeout(() => {
@@ -16,12 +16,12 @@ function Message({ file }) {
         clearTimeout(messageTimer);
       };
     }
-  }, [file]);
+  }, [props.message]);
 
   return (
     <>
       <div className={`msg ${showMessage ? "visible" : ""}`}>
-        <p>You can select only 1 PDF file at a time.</p>
+        <p>{props.message}</p>
       </div>
     </>
   );
