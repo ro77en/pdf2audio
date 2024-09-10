@@ -8,40 +8,31 @@ import Message from "../Message/Message";
 
 import "./Converter.css";
 
+const LANG_MAP = {
+  eng: "en-US",
+  por: "pt-BR",
+  spa: "es-ES",
+}
+
 function Converter() {
   const { file, setFile } = useContext(FileContext);
   const inputRef = useRef();
   const [audioUrl, setAudioUrl] = useState(null);
   const [audio, setAudio] = useState(null);
 
-  const getSpeechLang = (detectedLang) => {
-    const langMap = {
-      eng: "en-US",
-      por: "pt-BR",
-      spa: "es-ES",
-    };
+  const getSpeechLang = (detectedLang) => LANG_MAP[detectedLang] || "en-US";
 
-    return langMap[detectedLang] || "en-US";
-  };
+  const handleFileSelection = (selectedFile) => {
+    setFile(selectedFile?.type === 'application/pdf' ? selectedFile : undefined);
+  }
 
-  const handleFileSelection = (file) => {
-    if (file && file.type === "application/pdf") {
-      setFile(file);
-    } else {
-      setFile(undefined);
-    }
-  };
 
   const createAudioUrl = (blob) => {
     const url = URL.createObjectURL(blob);
     setAudioUrl(url);
 
-    if (audio) {
-      audio.pause();
-    }
-
-    const newAudio = new Audio(url);
-    setAudio(newAudio);
+    if (audio) audio.pause();
+    setAudio(new Audio(url));
   };
 
 
@@ -87,10 +78,9 @@ function Converter() {
     handleFileSelection(files[0]);
   };
 
-  const handleOnChange = (event) => {
-    const files = event.target.files;
-    handleFileSelection(files[0]);
-  };
+  const handleFileInputChange = (event) => {
+    handleFileSelection(event.target.files[0]);
+  }
 
   const handleBrowseFile = () => {
     inputRef.current.click();
@@ -118,7 +108,7 @@ function Converter() {
               name="file"
               id="file"
               hidden
-              onChange={handleOnChange}
+              onChange={handleFileInputChange}
               ref={inputRef}
             />
             {file ? (
