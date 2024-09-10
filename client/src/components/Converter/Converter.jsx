@@ -45,18 +45,6 @@ function Converter() {
   };
 
 
-  const playAudio = () => {
-    if (audio) {
-      audio.play();
-    }
-  }
-
-  const pauseAudio = () => {
-    if (audio) {
-      audio.pause();
-    }
-  }
-
   const fetchAudioFile = async (text, lang) => {
     try {
       const res = await fetch("http://localhost:3000/convert", {
